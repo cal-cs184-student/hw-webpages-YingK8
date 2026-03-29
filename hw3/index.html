@@ -1,106 +1,1065 @@
-<html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  :root {
+    --bg: #1b1b1b;
+    --fg: #f4f4f4;
+    --line: #333333;
+    --cyan: #00ffff;
+    --magenta: #ff00ff;
+    --yellow: #ffff00;
+    --red: #ff0000;
+    --green: #00ff00;
+    --blue: #0000ff;
+    --circle-offset-desktop: -3rem;
+    --circle-offset-mobile: -0.6rem;
+  }
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+  * {
+    box-sizing: border-box;
+    border-radius: 0 !important;
+  }
 
-			figure {
-				text-align: center;
-			}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: 'Space Mono', 'Roboto Mono', 'Courier New', monospace;
+    line-height: 1.55;
+  }
 
-			img {
-				display: inline-block;
-			}
+  .screen {
+    position: relative;
+    max-width: 980px;
+    margin: 1.5rem auto;
+    padding: 2rem;
+  }
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+  header {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
 
-		<br>
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Space Mono', 'Roboto Mono', 'Courier New', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 1rem;
+  }
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		
-		<figure>
-			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+  h1 {
+    font-size: clamp(2rem, 6vw, 4.8rem);
+    line-height: 1.08;
+  }
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+  .hero-title {
+    position: relative;
+    font-size: clamp(1.8rem, 4.2vw, 2.9rem);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+  .hero-title::before {
+    content: '';
+    position: absolute;
+    left: var(--circle-offset-desktop);
+    top: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 999px !important;
+    background: var(--yellow);
+    transform: translateY(-50%);
+  }
 
-		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  .hero-meta,
+  .hero-byline,
+  .hero-link {
+    margin: 0;
+    color: #d0d0d0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
-		
-		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  .hero-meta {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
 
-		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  .hero-byline {
+    font-size: 0.9rem;
+    margin-bottom: 0.7rem;
+  }
 
-		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  .hero-link {
+    font-size: 0.86rem;
+  }
 
-		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  h2 {
+    font-size: clamp(1.2rem, 2.2vw, 2rem);
+    padding: 0.8rem 0;
+    margin-top: 2rem;
+  }
 
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+  main h2 {
+    position: relative;
+  }
+
+  main h2::before {
+    content: '';
+    position: absolute;
+    left: var(--circle-offset-desktop);
+    top: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 999px !important;
+    background: var(--yellow);
+    transform: translateY(-50%);
+  }
+
+  h3 {
+    font-size: clamp(0.9rem, 1.7vw, 1.2rem);
+    color: var(--fg);
+    margin-top: 1.5rem;
+  }
+
+  p,
+  li,
+  figcaption,
+  pre,
+  td,
+  th {
+    font-size: 0.9rem;
+  }
+
+  .title-block {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+
+  .mission {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .readout {
+    color: #aaaaaa;
+    font-size: 0.74rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .bars {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    height: 10px;
+    margin: 0.75rem 0;
+  }
+
+  .bars span:nth-child(1) { background: var(--cyan); }
+  .bars span:nth-child(2) { background: var(--magenta); }
+  .bars span:nth-child(3) { background: var(--yellow); }
+  .bars span:nth-child(4) { background: var(--red); }
+  .bars span:nth-child(5) { background: var(--green); }
+  .bars span:nth-child(6) { background: var(--blue); }
+
+  a {
+    color: var(--yellow);
+  }
+
+  div[align="center"],
+  div[align="middle"] {
+    padding: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 0;
+    padding: 0.45rem;
+    vertical-align: top;
+  }
+
+  th {
+    border-bottom: 1px solid var(--line);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
+  }
+
+  pre {
+    border: 0;
+    padding: 0.55rem;
+    white-space: pre-wrap;
+    background: #0b0b0b;
+    color: var(--fg);
+  }
+
+  ul {
+    padding-left: 1.3rem;
+  }
+
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: #bbbbbb;
+  }
+
+  .cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 900px) {
+    .screen {
+      margin: 0;
+      max-width: none;
+      padding: 1rem;
+    }
+
+    .title-block {
+      grid-template-columns: 1fr;
+    }
+
+    table,
+    tbody,
+    tr,
+    th,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    main h2::before {
+      left: var(--circle-offset-mobile);
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
+    .hero-title::before {
+      left: var(--circle-offset-mobile);
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  @media (min-width: 901px) {
+    body {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+</style>
+<title>CS 184 Path Tracer</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Tiny5&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+</head>
+
+
+<body>
+
+<div class="screen">
+<header>
+  <div>
+    <h1 class="hero-title">HOMEWORK 3 // PATH TRACER</h1>
+    <!-- <div class="bars"><span></span><span></span><span></span><span></span><span></span><span></span></div> -->
+  </div>
+
+  <p class="hero-meta">CS 184: COMPUTER GRAPHICS AND IMAGING, SPRING 2026</p>
+  <p class="hero-byline">KEVIN YING YOKO FURUKAWA</p>
+
+  <!-- Add Website URL -->
+  <p class="hero-link"><b>WEBSITE URL:</b> <a href="TODO">TODO</a></p>
+  <p class="hero-link"><b>GITHUB URL:</b> <a href="TODO">TODO</a></p>
+</header>
+
+<main>
+
+
+
+
+<div align="left">
+  <table style="width:100%">
+      <tr>
+          <td align="middle">
+          <img src="images/part5/p5_cbspheres_rate.png" width="480px" />
+          <figcaption align="middle">bunny looks weird</figcaption>
+      </tr>
+  </table>
+</div>
+
+<p>All of the text in your write-up should be <em>in your own words</em>. If you need to add additional HTML features to this document, you can search the <a href="http://www.w3schools.com/">http://www.w3schools.com/</a> website for instructions. To edit the HTML, you can just copy and paste existing chunks and fill in the text and image file names appropriately.</p>
+<p>The website writeup is intended to be a self-contained walkthrough of the assignment: we want this to be a piece of work which showcases your understanding of relevant concepts through both mesh images as well as written explanations about what you did to complete each part of the assignment. Try to be as clear and organized as possible when writing about your own output files or extensions to the assignment. We want to understand what you've achieved and how you've done it!</p>
+<p>If you are well-versed in web development, feel free to ditch this template and make a better looking page.</p>
+
+
+<p>Here are a few problems students have encountered in the past. Test your website on the instructional machines early!</p>
+<ul>
+<li>Your main report page should be called index.html.</li>
+<li>Be sure to include and turn in all of the other files (such as images) that are linked in your report!</li>
+<li>Use only <em>relative</em> paths to files, such as <pre>"./images/image.jpg"</pre>
+Do <em>NOT</em> use absolute paths, such as <pre>"/Users/student/Desktop/image.jpg"</pre></li>
+<li>Pay close attention to your filename extensions. Remember that on UNIX systems (such as the instructional machines), capitalization matters. <pre>.png != .jpeg != .jpg != .JPG</pre></li>
+<li>Be sure to adjust the permissions on your files so that they are world readable. For more information on this please see this tutorial: <a href="http://www.grymoire.com/Unix/Permissions.html">http://www.grymoire.com/Unix/Permissions.html</a></li>
+<li>And again, test your website on the instructional machines early!</li>
+</ul>
+
+
+<p>Here is an example of how to include a simple formula:</p>
+<p align="middle"><pre align="middle">a^2 + b^2 = c^2</pre></p>
+<p>or, alternatively, you can include an SVG image of a LaTex formula.</p>
+
+<div>
+
+<h2 align="left">Overview</h2>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h2 align="left">Part 1: Ray Generation and Scene Intersection (20 Points)</h2>
+<!-- Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+Explain the triangle intersection algorithm you implemented in your own words.
+Show images with normal shading for a few small .dae files. -->
+
+<h3>
+  Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h3>
+  Explain the triangle intersection algorithm you implemented in your own words.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h3>
+  Show images with normal shading for a few small .dae files.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part1/p1_banana.png" align="middle" width="400px"/>
+        <figcaption>banana.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/part1/p1_CBspheres_lambertian.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+
+<h2 align="left">Part 2: Bounding Volume Hierarchy (20 Points)</h2>
+<!-- Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis. -->
+
+<h3>
+  Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+
+<h3>
+  Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part2/onlyBVH/p2_beast_bvh_on_t0p6448s.png" align="middle" width="400px"/>
+        <figcaption>beast.dae (0.6448s)</figcaption>
+      </td>
+      <td>
+        <img src="images/part2/onlyBVH/p2_peter_bvh_on_t0p6511s.png" align="middle" width="400px"/>
+        <figcaption>peter.dae (0.6511s)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<h3>
+  Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
+</h3>
+
+<!-- Example renders -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part2/render_time_comparison/p2_cow_bvh_on_t0p7734s.png" align="middle" width="400px"/>
+        <figcaption>cow.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/part2/render_time_comparison/p2_teapot_bvh_on_t0p7323s.png" align="middle" width="400px"/>
+        <figcaption>teapot.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- Render time comparison table -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <th>Scene</th>
+      <th>Without BVH</th>
+      <th>With BVH</th>
+      <th>Speedup</th>
+    </tr>
+    <tr align="center">
+      <td>cow.dae</td>
+      <td>113.09s</td>
+      <td>0.77s</td>
+      <td>146.6×</td>
+    </tr>
+    <tr align="center">
+      <td>teapot.dae</td>
+      <td>34.27s</td>
+      <td>0.73s</td>
+      <td>46.9×</td>
+    </tr>
+  </table>
+</div>
+
+<p>
+    The BVH significantly sped up rendering times! For the cow model, rendering dropped from 113.09 seconds without BVH to 0.77 seconds with 
+    BVH (146.6× speedup!). Similarly, the teapot model renders in 34.27 seconds without acceleration but only 0.73 seconds with BVH 
+    (46.9× speedup!). This comes from the BVH allowing each ray to prune large sections of the scene through binary search, skipping objects
+    outside of the non-intersected bounding boxes, and reducing the number of ray intersection tests!
+</p>
+<br>
+
+<h2 align="left">Part 3: Direct Illumination (20 Points)</h2>
+<!-- Walk through both implementations of the direct lighting function.
+Show some images rendered with both implementations of the direct lighting function.
+Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
+Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis. -->
+
+<h3>
+  Walk through both implementations of the direct lighting function.
+</h3>
+<p>
+    Direct illumination is computed using two sampling strategies:
+    <br><br>
+    1) <b>Uniform Hemisphere Sampling</b>: We sample directions uniformly over the hemisphere above the hit point, cast shadow rays, and accumulate contributions weighted by the BSDF and cosine term, divided by the uniform PDF ($1 / 2\pi$). This method is straightforward, but many samples are wasted on directions that do not point toward a light source.
+    <br><br>
+    2) <b>Light Importance Sampling</b>: We sample directions directly from the light sources. Area lights are sampled multiple times per shading point (using <code>ns_area_light</code>), while point lights require only one sample. Each contribution is visibility-checked with a shadow ray and weighted by the light-sampling PDF. Because samples are focused on high-contribution directions, this approach produces lower variance.
+    <br><br>
+    The key difference is where samples are spent: hemisphere sampling spreads effort uniformly, while importance sampling targets directions that are more likely to contribute illumination. As a result, importance sampling converges faster for the same sample budget.
+</p>
+
+<h3>
+  Show some images rendered with both implementations of the direct lighting function.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <!-- Header -->
+    <tr align="center">
+      <th>
+        <b>Uniform Hemisphere Sampling</b>
+      </th>
+      <th>
+        <b>Light Sampling</b>
+      </th>
+    </tr>
+    <br>
+    <tr align="center">
+      <td>
+        <img src="images/part3/p3_cbbunny_hemi.png" align="middle" width="400px"/>
+        <figcaption>CBbunny.dae (Hemisphere)</figcaption>
+      </td>
+      <td>
+        <img src="images/part3/p3_cbbunny_light.png" align="middle" width="400px"/>
+        <figcaption>CBbunny.dae (Light Sampling)</figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr align="center">
+      <td>
+        <img src="images/part3/p3_cbspheres_lambertian_hemi.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae (Hemisphere)</figcaption>
+      </td>
+      <td>
+        <img src="images/part3/p3_cbspheres_lambertian_light.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae (Light Sampling)</figcaption>
+      </td>
+    </tr>
+    <br>
+  </table>
+</div>
+<br>
+
+<h3>
+  Focus on one particular scene with at least one area light and compare the noise levels in 
+  <b>soft shadows</b> when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 
+  1 sample per pixel (the -s flag) using light sampling, <b>not</b> uniform hemisphere sampling.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part3/p3_cbbunny_l1.png" align="middle" width="400px"/>
+        <figcaption>1 Light Ray (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part3/p3_cbbunny_l4.png" align="middle" width="400px"/>
+        <figcaption>4 Light Rays (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part3/p3_cbbunny_l16.png" align="middle" width="400px"/>
+        <figcaption>16 Light Rays (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part3/p3_cbbunny_l64.png" align="middle" width="400px"/>
+        <figcaption>64 Light Rays (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  As the number of light rays increases from 1 to 64, soft-shadow noise decreases consistently.
+  With 1 sample per pixel and 1 light ray, the bunny's shadow is visibly noisy and low-contrast details are hard to distinguish. At $l = 1$, 
+  each shading point relies on a single area-light sample, so radiance varies significantly from pixel to pixel.
+  <br><br>
+  At 4 light rays, the shadow pattern is already smoother. At 16 rays, soft-shadow boundaries are much more stable with substantially less 
+  noise. At 64 rays, the noise is minimal and transitions look clean and continuous.
+  <br><br>
+  This matches Monte Carlo behavior: variance decreases approximately as $O(1/\sqrt{N})$, where $N$ is the number of samples. The improvement 
+  is most visible in the ground-shadow region, where overlapping soft shadows become clearer as sampling increases.
+</p>
+<br>
+
+<h3>
+  Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
+</h3>
+
+<p>
+  Light importance sampling clearly outperforms uniform hemisphere sampling in both quality and efficiency.
+  Hemisphere sampling distributes rays over all directions, so many samples land in directions with little or no contribution. In contrast, 
+  light sampling concentrates rays toward actual emitters, which provides cleaner estimates for the same computational budget.
+  <br><br>
+  Visually, the difference is most noticeable in soft shadows: light sampling yields smoother and better-defined shadow boundaries, while 
+  hemisphere sampling remains noisy at comparable settings.
+  <br><br>
+  Hemisphere sampling also tends to produce a stronger "glow" near the light source. Since directions are sampled uniformly, occasional direct 
+  hits to bright emitters can introduce large local variance. Importance sampling reduces this effect by sampling from the light distribution 
+  and correctly weighting contributions by the sampling PDF.
+  <br><br>
+  In practice, light sampling converges faster and achieves cleaner direct-illumination results with fewer samples.
+</p>
+<br>
+
+
+<h2 align="left">Part 4: Global Illumination (20 Points)</h2>
+<!-- Walk through your implementation of the indirect lighting function.
+Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
+
+<h3>
+  Walk through your implementation of the indirect lighting function.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h3>
+  Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part4/global_illumination/p4_global_cbbunny.png" align="middle" width="800px"/>
+        <figcaption>example1.dae</figcaption>
+      </td>
+    </tr>
+
+    <tr align="center">
+      <td>
+        <img src="images/part4/global_illumination/p4_global_cbspheres.png" align="middle" width="800px"/>
+        <figcaption>example2.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<h3>
+  Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. 
+  (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_direct_indirect/bunny_direct.png" align="middle" width="400px"/>
+        <figcaption>Only direct illumination (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_direct_indirect/bunny_indirect.png" align="middle" width="400px"/>
+        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    Direct illumination contains light that reaches the surface from emitters and then travels to the camera in one bounce.
+    Indirect illumination contains light that has already bounced off other surfaces, carrying color bleeding and global transport effects.
+    <br><br>
+    In our comparison, the direct-only image shows stronger shadow structure from the overhead light, but little color bleeding from the side 
+    walls. The indirect-only image shows visible red/blue wall tinting on the bunny, but lacks the physically expected direct shadowing from 
+    the light source.
+    <br><br>
+    To isolate <b>direct-only</b> illumination, we modified <code>PathTracer::at_least_one_bounce_radiance</code> to return zero additional 
+    contribution, because <code>PathTracer::est_radiance_global_illumination</code> already adds zero-bounce and one-bounce terms:
+    <pre>return Vector3D(0, 0, 0);</pre>
+    To isolate <b>indirect-only</b> illumination, we removed the top-level direct terms by subtracting zero-bounce and one-bounce contributions 
+    at the first recursion level:
+    <pre>if (r.depth == max_ray_depth) {
+  return L_out - 2.0 * one_bounce_radiance(r, isect) - zero_bounce_radiance(r, isect);
+}</pre>
+</p>
+<br>
+
+<h3>
+  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_1.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_2.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_3.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_100.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 100 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
+</p>
+<br>
+
+<h3>
+  Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_1.png" align="middle" width="400px"/>
+        <figcaption>1 sample per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_2.png" align="middle" width="400px"/>
+        <figcaption>2 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_4.png" align="middle" width="400px"/>
+        <figcaption>4 samples per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_8.png" align="middle" width="400px"/>
+        <figcaption>8 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_16.png" align="middle" width="400px"/>
+        <figcaption>16 samples per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_64.png" align="middle" width="400px"/>
+        <figcaption>64 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_1024.png" align="middle" width="400px"/>
+        <figcaption>1024 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
+</p>
+<br>
+
+
+<h2 align="left">Part 5: Adaptive Sampling (20 Points)</h2>
+<!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
+
+<h3>
+  Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h3>
+  Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part5/p5_cbbunny.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part5/p5_cbbunny_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part5/p5_cbspheres.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (CBspheres_lambertian.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part5/p5_cbspheres_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (CBspheres_lambertian.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<h2 align="left">Part 6: Extra Credit</h2>
+<p>
+  This section contains all extra-credit content for this report. We implemented three extensions:
+  (1) improved pixel samplers, (2) SAH-based BVH splitting, and (7) an alternate adaptive sampling heuristic.
+  For each item below, we include approach details, implementation notes, representative screenshots, and timing data.
+</p>
+
+<h3>
+  Extra Credit 1: Jittered and Low-Discrepancy Pixel Samplers
+</h3>
+<p>
+  <b>Approach and method.</b> The baseline pixel sampler draws points uniformly at random in each pixel.
+  We added two alternatives to reduce variance and aliasing: a stratified jittered sampler and a Halton low-discrepancy sampler.
+  The jittered sampler subdivides the pixel into a $4\times4$ grid and jitters one sample within each cell.
+  The Halton sampler uses radical inverse sequences in bases 2 and 3 to produce a more even sample pattern over time.
+  Both methods are integrated behind a runtime mode switch so we can run fair A/B tests on the same scene/camera/sample budget.
+  <br><br>
+  <b>Implementation details.</b> We added <code>JitteredGridSampler2D</code> and <code>HaltonSampler2D</code>, kept the original
+  <code>UniformGridSampler2D</code>, and selected the mode at runtime with <code>PT_SAMPLER2D_MODE</code>
+  (<code>uniform</code>, <code>jittered</code>, <code>halton</code>). All three runs below use
+  <code>CBspheres_lambertian.dae</code>, 480x360, 64 spp, 4 light samples, max depth 5.
+</p>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part6/sampler/cbspheres_uniform.png" align="middle" width="300px"/>
+        <figcaption>Uniform sampler render</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/sampler/cbspheres_jittered.png" align="middle" width="300px"/>
+        <figcaption>Jittered sampler render</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/sampler/cbspheres_halton.png" align="middle" width="300px"/>
+        <figcaption>Halton sampler render</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part6/sampler/cbspheres_uniform_rate.png" align="middle" width="300px"/>
+        <figcaption>Uniform sample-rate map</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/sampler/cbspheres_jittered_rate.png" align="middle" width="300px"/>
+        <figcaption>Jittered sample-rate map</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/sampler/cbspheres_halton_rate.png" align="middle" width="300px"/>
+        <figcaption>Halton sample-rate map</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <th>Sampler Mode</th>
+      <th>Render Time (s)</th>
+      <th>Rays/sec (M)</th>
+      <th>Speedup vs Uniform</th>
+    </tr>
+    <tr align="center">
+      <td>Uniform</td>
+      <td>24.3818</td>
+      <td>4.5679</td>
+      <td>1.00x</td>
+    </tr>
+    <tr align="center">
+      <td>Jittered</td>
+      <td>24.1180</td>
+      <td>4.5462</td>
+      <td>1.01x</td>
+    </tr>
+    <tr align="center">
+      <td>Halton</td>
+      <td>23.8218</td>
+      <td>4.7330</td>
+      <td>1.02x</td>
+    </tr>
+  </table>
+</div>
+
+<p>
+  <b>Discussion.</b> At equal sample budgets, jittered and Halton produce more stable edge transitions than purely uniform random sampling,
+  especially around geometric boundaries and smooth shading gradients. Runtime cost is nearly unchanged, and Halton is marginally faster
+  in this specific experiment.
+</p>
+
+<h3>
+  Extra Credit 2: Surface Area Heuristic (SAH) for BVH Splitting
+</h3>
+<p>
+  <b>Approach and method.</b> The baseline BVH split chooses the longest axis and splits at the centroid midpoint.
+  We implemented a binned SAH strategy that evaluates candidate splits across all three axes and chooses the split minimizing
+  expected traversal/intersection cost. We used 8 bins per axis and computed per-side primitive counts and bounding boxes
+  to evaluate the SAH objective.
+  <br><br>
+  <b>Implementation details.</b> SAH is enabled with <code>PT_BVH_SPLIT_MODE=sah</code>.
+  A robust fallback to midpoint splitting is kept for degenerate cases (empty partitions or near-zero extents),
+  so construction remains stable on all scenes.
+  The benchmark below uses <code>CBdragon.dae</code> (100,012 primitives), 480x360, 32 spp, 4 light samples, max depth 5.
+</p>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part6/sah/cbdragon_centroid.png" align="middle" width="440px"/>
+        <figcaption>Centroid split render</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/sah/cbdragon_sah.png" align="middle" width="440px"/>
+        <figcaption>SAH split render</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <th>BVH Split Heuristic</th>
+      <th>Build Time (s)</th>
+      <th>Render Time (s)</th>
+      <th>Total (s)</th>
+      <th>Avg Isects/Ray</th>
+      <th>Render Speedup</th>
+    </tr>
+    <tr align="center">
+      <td>Centroid Midpoint</td>
+      <td>0.0362</td>
+      <td>47.1098</td>
+      <td>47.1460</td>
+      <td>11.149703</td>
+      <td>1.00x</td>
+    </tr>
+    <tr align="center">
+      <td>SAH (8-bin)</td>
+      <td>0.1157</td>
+      <td>12.8144</td>
+      <td>12.9301</td>
+      <td>6.319625</td>
+      <td>3.68x</td>
+    </tr>
+  </table>
+</div>
+
+<p>
+  <b>Discussion.</b> SAH construction is around 3.2x slower than centroid construction on this scene, but BVH build remains a small fraction
+  of total runtime. The higher-quality split decisions reduce average intersections per ray from 11.15 to 6.32 and improve render time by 3.68x.
+  In practice, this tradeoff is strongly favorable for complex scenes.
+</p>
+
+<h3>
+  Extra Credit 7: Alternate Adaptive Sampling Heuristic
+</h3>
+<p>
+  <b>Approach and method.</b> The original stopping test uses a single luminance confidence interval criterion.
+  We added a second mode that checks per-channel confidence intervals (R/G/B independently) with a luminance floor guard.
+  The goal is to avoid premature stopping in low-luminance but chromatically noisy regions.
+  <br><br>
+  <b>Implementation details.</b> This mode is enabled with <code>PT_ADAPTIVE_MODE=channel</code> and
+  <code>PT_ADAPTIVE_LUMINANCE_FLOOR=0.001</code>. Baseline remains available as <code>PT_ADAPTIVE_MODE=baseline</code>.
+  Comparison below uses <code>CBbunny.dae</code>, 480x360, 256 max spp, 1 light sample, max depth 5,
+  with tolerance controlled by <code>-a 32 0.05</code>.
+</p>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part6/adaptive/cbbunny_baseline.png" align="middle" width="440px"/>
+        <figcaption>Baseline adaptive result</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/adaptive/cbbunny_channel.png" align="middle" width="440px"/>
+        <figcaption>Channel-variance adaptive result</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part6/adaptive/cbbunny_baseline_rate.png" align="middle" width="440px"/>
+        <figcaption>Baseline sample-rate map</figcaption>
+      </td>
+      <td>
+        <img src="images/part6/adaptive/cbbunny_channel_rate.png" align="middle" width="440px"/>
+        <figcaption>Channel-variance sample-rate map</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <th>Adaptive Heuristic</th>
+      <th>Render Time (s)</th>
+      <th>BVH Rays Traced</th>
+      <th>Rays/sec (M)</th>
+      <th>Speedup vs Baseline</th>
+    </tr>
+    <tr align="center">
+      <td>Baseline (Luminance CI)</td>
+      <td>125.2311</td>
+      <td>209,337,282</td>
+      <td>1.6716</td>
+      <td>1.00x</td>
+    </tr>
+    <tr align="center">
+      <td>Channel Variance + Floor</td>
+      <td>126.2480</td>
+      <td>209,240,034</td>
+      <td>1.6574</td>
+      <td>0.99x</td>
+    </tr>
+  </table>
+</div>
+
+<p>
+  <b>Discussion.</b> Runtime remained nearly identical for these settings, so this change should be viewed as a quality-allocation heuristic
+  rather than a speed optimization. The channel-aware criterion redistributes samples more conservatively in colored/high-frequency regions,
+  which is visible in the sample-rate maps. This mode is most useful when chromatic noise is more objectionable than small runtime changes.
+</p>
+
+<p>
+  <b>Reproducibility note.</b> All Part 6 metrics were produced from logged command-line runs with fixed scene and render parameters.
+  Logs are stored under <code>docs/images/part6/logs</code>.
+</p>
+<br>
+
+
+<footer>
+  <span>© CS184 PATH TRACER ARCHIVE</span>
+  <span>STATUS: LIVE <span class="cursor">_</span></span>
+</footer>
+</main>
+</div>
+</body>
 </html>

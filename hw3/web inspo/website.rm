@@ -1,0 +1,59 @@
+SYSTEM INSTRUCTIONS FOR AI WEB DEVELOPER
+Project Context: A minimalist, retro-computing, and pixel-art inspired portfolio website for a Computer Graphics (CG) project. The site will showcase numerous high-quality Cornell Box scene renders. Vibe / Aesthetic: Brutalist, analytical, engineering rigor, raw pixel, terminal interface, archival.
+Visual References Synthesis: High contrast (black/white), monospaced/pixel typography, technical motifs (crosshairs, color calibration charts, grid dots), and an editorial row-based layout for galleries.
+1. DESIGN TOKENS
+1.1 Typography
+Primary Font (Headers & Titles): A blocky, pixelated font.
+CSS Stack: 'Silkscreen', 'Press Start 2P', 'Courier New', monospace;
+Style: Strictly UPPERCASE for all structural headers.
+Secondary Font (Body & Metadata): A clean, highly legible monospace font.
+CSS Stack: 'Space Mono', 'Roboto Mono', 'Courier New', monospace;
+Style: Used for descriptions, technical readouts, and small text.
+Scale: Use extreme contrast in font sizes. Huge oversized headers (e.g., 4rem to 6rem) paired with small, precise body text (e.g., 0.85rem).
+1.2 Color Palette
+Background (Primary): #050505 (Deepest off-black, mimics terminal screens and allows CG renders to pop).
+Foreground / Text: #F4F4F4 (Off-white/light gray to prevent eye strain).
+Subdued Text / Borders: #333333 (Dark gray for grid lines, dividers, and secondary data).
+Calibration Accents (Use sparingly for motifs):
+Cyan: #00FFFF
+Magenta: #FF00FF
+Yellow: #FFFF00
+Red: #FF0000
+Green: #00FF00
+Blue: #0000FF
+1.3 Spacing & Borders
+Borders: 1px solid #333333. No rounded corners anywhere (border-radius: 0;). Everything is sharp and boxy.
+Padding/Margin: Generous whitespace (or "blackspace"). Use a strict mathematical grid (e.g., multiples of 8px or 16px).
+2. IDENTITY MOTIFS & UI ELEMENTS
+Implement these elements to establish the "Engineering Rigor" aesthetic.
+Reticles (Crosshairs): Place small + symbols or SVG crosshairs at the corners of major layout containers or image borders.
+Color Calibration Charts: Use a horizontal row of small div blocks featuring the "Calibration Accents" colors as a footer or header separator (mimicking SMPTE color bars).
+Dotted Grids: Use CSS radial gradients to create faint, dotted grid backgrounds in empty spaces or header sections.
+Technical Readouts: Decorate the page with faux-technical metadata (e.g., [SYS.OP.NORMAL], ISO 216, LAT: 37.8715° N, RENDER_TIME: 42.1ms).
+3. LAYOUT STRUCTURE
+3.1 Global Wrapper
+The entire site should feel like a screen GUI. Add a subtle 1px border around the entire viewport body, inset by 1rem.
+3.2 Header
+Left: Massive pixel-font title (e.g., CG_SCENES // VOL.1).
+Right (or below): A color calibration bar and a block of monospace text detailing the "mission statement" or analytical approach to the renders.
+3.3 Main Content: The "Curated Collection" List
+Do NOT use a standard masonry grid. Use a row-based, editorial list layout with a border-bottom separating each project.
+Row Structure (Flexbox/Grid):
+Column 1 (20% width): Project Title (Pixel font), sequential number (e.g., No. 001), and Technical Specs (Resolution, Samples, Engine - in Monospace).
+Column 2 (40% width): Description text. Left-aligned, ragged right. Technical, poetic, but brief.
+Column 3 (40% width): The CG Render Image.
+Image Styling:
+Images should be heavily contained within their grid cell.
+Include a 1px white or grey border around the image.
+Hover state: Grayscale filter transitions to full color, or a subtle ASCII overlay appears.
+3.4 Footer
+A thick 1px border line.
+Left-aligned copyright, mono-spaced.
+Right-aligned system status or blinking cursor _.
+4. STRICT CODING RULES FOR AI AGENT
+NO BORDER RADIUS: Ensure * { border-radius: 0 !important; } or equivalent is used.
+SINGLE FILE PREFERENCE: If generating a prototype, combine HTML/CSS/JS into a single file for immediate copy-paste testing.
+SEMANTIC HTML: Use <article>, <header>, <footer>, and <figure> tags.
+RESPONSIVENESS: On mobile, stack the "Curated Collection" rows into a single column (Specs -> Image -> Description), but retain the thin dividing lines between every element.
+IMAGES: Use placeholder images via https://picsum.photos or similar, but append grayscale or specific dimension parameters to fit the mockups.
+// END OF SYSTEM PROMPT
