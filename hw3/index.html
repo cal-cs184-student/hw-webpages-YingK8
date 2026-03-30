@@ -2,9 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <style>
+  @font-face {
+    font-family: 'Ucka';
+    src: url('./fonts/LED.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+  }
+
   :root {
-    --bg: #1b1b1b;
-    --fg: #f4f4f4;
+    --bg: #191919;
+    --fg: #e7e7e7;
+    --fg-muted: #d0d0d0;
+    --fg-subtle: #bbbbbb;
     --line: #333333;
     --cyan: #00ffff;
     --magenta: #ff00ff;
@@ -12,6 +21,13 @@
     --red: #ff0000;
     --green: #00ff00;
     --blue: #0000ff;
+    --panel-dark: #0b0b0b;
+    --panel-mid: #0f0f0f;
+    --panel-border: #f4f4f4;
+    --panel-shadow: #202020;
+    --text-base: 0.95rem;
+    --text-small: 0.86rem;
+    --text-tiny: 0.78rem;
     --circle-offset-desktop: -3rem;
     --circle-offset-mobile: -0.6rem;
   }
@@ -28,6 +44,7 @@
     color: var(--fg);
     font-family: 'Space Mono', 'Roboto Mono', 'Courier New', monospace;
     line-height: 1.55;
+    font-size: var(--text-base);
   }
 
   .screen {
@@ -52,6 +69,12 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin: 0 0 1rem;
+  }
+
+  h1,
+  h2 {
+    font-family: 'Ucka', 'Space Mono', 'Courier New', monospace;
+    letter-spacing: 0.08em;
   }
 
   h1 {
@@ -82,23 +105,18 @@
   .hero-byline,
   .hero-link {
     margin: 0;
-    color: #d0d0d0;
+    color: var(--fg-muted);
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    font-size: var(--text-small);
   }
 
   .hero-meta {
-    font-size: 0.95rem;
     margin-bottom: 0.3rem;
   }
 
   .hero-byline {
-    font-size: 0.9rem;
     margin-bottom: 0.7rem;
-  }
-
-  .hero-link {
-    font-size: 0.86rem;
   }
 
   h2 {
@@ -129,13 +147,31 @@
     margin-top: 1.5rem;
   }
 
+  main h3 {
+    position: relative;
+  }
+
+  main h3::before {
+    content: '>>>';
+    position: absolute;
+    left: -3rem;
+    top: 0;
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
   p,
   li,
   figcaption,
   pre,
+  code,
   td,
   th {
-    font-size: 0.9rem;
+    font-size: var(--text-base);
   }
 
   .title-block {
@@ -153,7 +189,7 @@
 
   .readout {
     color: #aaaaaa;
-    font-size: 0.74rem;
+    font-size: var(--text-tiny);
     margin-top: 0.5rem;
     letter-spacing: 0.03em;
   }
@@ -174,6 +210,13 @@
 
   a {
     color: var(--yellow);
+    text-underline-offset: 2px;
+  }
+
+  figcaption {
+    margin-top: 0.45rem;
+    color: var(--fg-muted);
+    text-align: center;
   }
 
   div[align="center"],
@@ -192,10 +235,20 @@
     border: 0;
     padding: 0.45rem;
     vertical-align: top;
+    text-align: left;
   }
 
   th {
     border-bottom: 1px solid var(--line);
+    color: var(--fg-muted);
+    font-weight: 700;
+  }
+
+  td[align="middle"],
+  th[align="middle"],
+  td[align="center"],
+  th[align="center"] {
+    text-align: center;
   }
 
   img {
@@ -205,15 +258,79 @@
   }
 
   pre {
-    border: 0;
-    padding: 0.55rem;
+    border: 1px solid var(--panel-border);
+    padding: 0.6rem 0.7rem;
     white-space: pre-wrap;
-    background: #0b0b0b;
+    background: var(--panel-dark);
     color: var(--fg);
+    line-height: 1.5;
+    margin: 0.6rem 0;
+    box-shadow: 2px 2px 0 var(--panel-shadow);
+  }
+
+  code {
+    background: var(--panel-mid);
+    color: var(--fg);
+    padding: 0.05rem 0.3rem;
+    border: 1px solid var(--panel-border);
+    box-shadow: 1px 1px 0 var(--panel-shadow);
+  }
+
+  pre code {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+  }
+
+  .MathJax_Display,
+  mjx-container[display='true'] {
+    display: block;
+    margin: 0.7rem 0 !important;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--panel-border);
+    background: var(--panel-dark);
+    box-shadow: 2px 2px 0 var(--panel-shadow);
+    overflow-x: auto;
+  }
+
+  mjx-container[display='false'] {
+    display: inline-block;
+    padding: 0.02rem 0.25rem;
+    border: 1px solid var(--panel-border);
+    background: var(--panel-mid);
+    vertical-align: baseline;
+  }
+
+  /* Optional variant: terminal bracket style */
+  body.style-bracket pre,
+  body.style-bracket .MathJax_Display,
+  body.style-bracket mjx-container[display='true'] {
+    border-left: 4px solid var(--fg);
+    box-shadow: none;
+  }
+
+  /* Optional variant: calibration accent corners */
+  body.style-calibration pre,
+  body.style-calibration .MathJax_Display,
+  body.style-calibration mjx-container[display='true'] {
+    position: relative;
+    background-image:
+      linear-gradient(var(--cyan), var(--cyan)),
+      linear-gradient(var(--magenta), var(--magenta)),
+      linear-gradient(var(--yellow), var(--yellow));
+    background-size: 8px 2px, 2px 8px, 8px 2px;
+    background-position: 0 0, 0 0, 100% 100%;
+    background-repeat: no-repeat;
   }
 
   ul {
     padding-left: 1.3rem;
+    margin: 0.25rem 0 1rem;
+  }
+
+  li {
+    margin-bottom: 0.4rem;
   }
 
   footer {
@@ -222,8 +339,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.78rem;
-    color: #bbbbbb;
+    font-size: var(--text-tiny);
+    color: var(--fg-subtle);
+    border-top: 1px solid var(--line);
   }
 
   .cursor {
@@ -260,6 +378,10 @@
       padding-bottom: 0.75rem;
     }
 
+    figcaption {
+      text-align: left;
+    }
+
     main h2::before {
       left: var(--circle-offset-mobile);
       width: 0.9rem;
@@ -270,6 +392,10 @@
       left: var(--circle-offset-mobile);
       width: 0.9rem;
       height: 0.9rem;
+    }
+
+    main h3::before {
+      left: -0.6rem;
     }
   }
 
@@ -282,7 +408,7 @@
 </style>
 <title>CS 184 Path Tracer</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link href="https://fonts.googleapis.com/css2?family=Tiny5&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <script>
   MathJax = {
@@ -311,14 +437,10 @@
   <p class="hero-byline">KEVIN YING YOKO FURUKAWA</p>
 
   <!-- Add Website URL -->
-  <p class="hero-link"><b>WEBSITE URL:</b> <a href="TODO">TODO</a></p>
-  <p class="hero-link"><b>GITHUB URL:</b> <a href="TODO">TODO</a></p>
+  <p class="hero-link"><b>WEBSITE URL:</b> <a href="https://cal-cs184-student.github.io/hw-webpages-YingK8/hw3/index.html">https://cal-cs184-student.github.io/hw-webpages-YingK8/hw3/index.html</a></p>
 </header>
 
 <main>
-
-
-
 
 <div align="left">
   <table style="width:100%">
@@ -330,32 +452,13 @@
   </table>
 </div>
 
-<p>All of the text in your write-up should be <em>in your own words</em>. If you need to add additional HTML features to this document, you can search the <a href="http://www.w3schools.com/">http://www.w3schools.com/</a> website for instructions. To edit the HTML, you can just copy and paste existing chunks and fill in the text and image file names appropriately.</p>
-<p>The website writeup is intended to be a self-contained walkthrough of the assignment: we want this to be a piece of work which showcases your understanding of relevant concepts through both mesh images as well as written explanations about what you did to complete each part of the assignment. Try to be as clear and organized as possible when writing about your own output files or extensions to the assignment. We want to understand what you've achieved and how you've done it!</p>
-<p>If you are well-versed in web development, feel free to ditch this template and make a better looking page.</p>
-
-
-<p>Here are a few problems students have encountered in the past. Test your website on the instructional machines early!</p>
-<ul>
-<li>Your main report page should be called index.html.</li>
-<li>Be sure to include and turn in all of the other files (such as images) that are linked in your report!</li>
-<li>Use only <em>relative</em> paths to files, such as <pre>"./images/image.jpg"</pre>
-Do <em>NOT</em> use absolute paths, such as <pre>"/Users/student/Desktop/image.jpg"</pre></li>
-<li>Pay close attention to your filename extensions. Remember that on UNIX systems (such as the instructional machines), capitalization matters. <pre>.png != .jpeg != .jpg != .JPG</pre></li>
-<li>Be sure to adjust the permissions on your files so that they are world readable. For more information on this please see this tutorial: <a href="http://www.grymoire.com/Unix/Permissions.html">http://www.grymoire.com/Unix/Permissions.html</a></li>
-<li>And again, test your website on the instructional machines early!</li>
-</ul>
-
-
-<p>Here is an example of how to include a simple formula:</p>
-<p align="middle"><pre align="middle">a^2 + b^2 = c^2</pre></p>
-<p>or, alternatively, you can include an SVG image of a LaTex formula.</p>
-
-<div>
-
 <h2 align="left">Overview</h2>
 <p>
-    YOUR RESPONSE GOES HERE
+  This project implements a full Monte Carlo path tracer, exploring the rendering pipeline from camera ray generation to global illumination and adaptive sampling. <br><br> 
+
+  We start by generating camera rays from normalized image coordinates, mapping each pixel into 3D camera space, and transforming rays into world space. To accelerate intersection tests in complex scenes, we implemented a bounding volume hierarchy (BVH), which organizes primitives into a tree structure. We also implemented direct and global illumination and improved convergence with importance sampling and adaptive sampling.
+  <br><br>
+  The most important implementation challenges were balancing BVH split quality versus build stability (handling degenerate centroid partitions) and debugging variance in indirect-lighting estimates. We addressed those issues by adding robust BVH fallback splits, validating recursion-depth logic for bounce isolation, and checking convergence behavior with sample-rate visualizations.
 </p>
 <br>
 
@@ -367,16 +470,68 @@ Show images with normal shading for a few small .dae files. -->
 <h3>
   Walk through the ray generation and primitive intersection parts of the rendering pipeline.
 </h3>
+<h3>
+  Task1: Generating Camera Rays
+</h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  In this part, we implemented <code>generate_ray()</code> to map 2D image space coordinates into 3D camera rays.
+  We begin by transforming normalized image coordinates <code>(x,y)∈[0,1]</code>into camera sensor space. Since the sensor spans <code>[−tan⁡(hFov/2), tan⁡(hFov/2)]</code> horizontally and <code>[−tan⁡(vFov/2), tan⁡(vFov/2)]</code> vertically, we first remap the coordinates from <code>[0,1]</code> to <code>[−1,1]</code>, and then scale by the field of view: <br>
+  <code>sensor_x = (2x−1)⋅tan⁡(hFov/2)</code><br>
+  <code>sensor_y = (2y−1)⋅tan⁡(vFov/2)</code><br>
+  This produces a point on the image plane in camera space. We then construct a ray originating at the camera origin <code>(0,0,0)</code> and passing through <code>(sensor_x, sensor_y, −1)</code>.
+  Next, the ray is transformed into world space using the camera-to-world transformation matrix (<code>c2w</code>). The resulting direction vector is normalized to ensure consistent intersection behavior. Finally, the ray origin is set to the camera position, and its bounds <code>[mint, maxt]</code> are initialized using the near and far clipping planes. <br>
+</p>
+<h3>
+  Task 2: Generating Pixel Samples
+</h3>
+<p>
+  For task2, to estimate pixel radiance, we implemented Monte Carlo sampling by tracing multiple rays per pixel. For each pixel <code>(x,y)</code>, we generate subpixel samples using <code>Vector2D sample = origin + gridSampler->get_sample()</code>.
+  We then normalize these coordinates to <code>[0,1]</code>:<br>
+  <code>sx=sample.xwidth</code><br>
+  <code>sy=sample.yheight</code><br>
+  Instead of casting a single ray through the pixel center, this approach distributes samples across the pixel area, reducing aliasing and better approximating continuous radiance. Each sample is used to generate a camera ray via <code>generate_ray()</code>, and its radiance is computed using <code>est_radiance_global_illumination()</code>. We accumulate contributions across all samples and compute the final pixel color by averaging. This averaging step approximates the integral of incoming radiance over the pixel area.
 </p>
 <br>
 
 <h3>
   Explain the triangle intersection algorithm you implemented in your own words.
 </h3>
+<h3>
+  Task 3: Ray-Triangle Intersection
+</h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  We implemented ray–triangle intersection using the Möller–Trumbore algorithm, which solves for intersections using barycentric coordinates.
+
+  Given triangle vertices <code>p1, p2, p3 </code>, we define edge vectors:  <code>e1 = p2−p1, e2 = p3−p1 </code>. Then we compute intermediate vectors:  <code>s = r.o − p1​ </code> (vector from the triangle vertex to the ray origin),  <code>s1 = r.d × e2 </code>​,( the cross product between the ray direction and edge e2), and  <code>s2 = s × e1 </code>(another cross product used to compute barycentric coordinates). <dr>
+  We then compute the determinant by taking a dot product  <code>s1 </code> and  <code>e1 </code> to determines whether the ray is parallel to the triangle. If the determinant is very close to zero, the ray does not intersect the triangle plane, and we immediately return false.
+  If the determinant is valid, we proceed by computing its barycentric coordinates using t (the distance along the ray where the intersection occurs),  <code>b1, b2​ </code> (barycentric coordinates of the intersection point). We can define the third barycentric coordinate by  <code>b0=1−b1−b2 </code>.
+
+  We used these barycentric coordinates to determine whether the intersection lies outside the triangle by checking if any of  <code>b0,b1,b2 < 0 </code>. We also ensure that the intersection lies within the valid ray interval by checking if  <code>t∈[min_t,max_t] </code>.
+  In  <code>intersect() </code>, we additionally store:
+
+  <ul>
+    <li>intersection distance t</li>
+    <li>surface normal (computed analytically as the normalized vector from the center to the hit point)</li>
+    <li>primitive pointer</li>
+    <li>BSDF</li>
+  </ul>
+</p>
+<h3>
+  Task 4: Ray-Sphere Intersection
+</h3>
+<p>
+  We also implemented ray–sphere intersection using the quadratic equation derived from substituting the ray equation into the sphere equation. Let <code>oc = r.o−o</code>, where o is the sphere center. This gives a quadratic <code>at^2+bt+c = 0</code>.
+  We compute the discriminant <code>disc = b2−4ac</code>. If <code>disc < 0</code>, there are no real solutions, meaning the ray misses the sphere and if <code>disc >= 0</code>, the ray intersects the sphere at one or two points.
+  When intersections exist, we compute <code>t1 = (−b−disc) / 2*a, t2 = (−b+disc) /2*a​​</code>
+  We select the smallest valid <code>t ∈ [mint,maxt]</code>. In <code>has_intersection()</code>, we only check validity and update <code>ray.max_t</code>.
+  In <code>intersect()</code>, we additionally record:
+  <ul>
+    <li>intersection distance t</li>
+    <li>surface normal (computed analytically as the normalized vector from the center to the hit point)</li>
+    <li>primitive pointer</li>
+    <li>BSDF</li>
+  </ul>
+  
 </p>
 <br>
 
@@ -401,7 +556,7 @@ Show images with normal shading for a few small .dae files. -->
 <br>
 
 
-<h2 align="left">Part 2: Bounding Volume Hierarchy (20 Points)</h2>
+<h2 align="left">Part 2: Bounding Volume Hierarchy (17 Points)</h2>
 <!-- Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
 Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
 Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis. -->
@@ -410,7 +565,28 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  Our BVH is built with a binary tree, where each node is a bounding box that encloses a subset of
+  primitives in that subtree. We recursively construct the tree:
+  <br><br>
+  1) Compute the node bounding box by unioning all primitive boxes in the current range.<br>
+  2) If the primitive count is at most <code>max_leaf_size</code>, stop and mark this node as a leaf.<br>
+  3) Otherwise choose a split axis and split position, partition primitives by centroid,
+  then recurse on the left and right partitions.
+  <br><br>
+  Our default split heuristic is <b>centroid midpoint on the longest axis</b>:
+  we choose the axis with largest node extent, then split at the midpoint of that extent.
+  This usually reduces overlap and balances traversal depth for general scenes.
+  <br><br>
+  If a partitioning places all primitives on one side, we force a median-by-count split
+  to avoid infinite recursion and keep the tree well-formed.
+  <br><br>
+  For extra credit, we also implemented an optional <b>SAH binned split</b> (see Part 6 for more details):
+  <br><br>
+  1) for each axis, we bin centroids (8 bins), evaluate candidate split costs using
+  $$C \propto A_L N_L + A_R N_R,$$
+  2) pick the minimum-cost split. 
+  <br><br>
+  3) If SAH is degenerate (e.g., empty partition or tiny extent), fall back to midpoint splitting.
 </p>
 
 <h3>
@@ -432,6 +608,9 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   </table>
 </div>
 <br>
+<p>
+  These large scenes were used specifically because brute-force primitive intersection is impractically slow without acceleration; with BVH enabled, both become interactively renderable at assignment settings.
+</p>
 
 <h3>
   Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
@@ -610,10 +789,10 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
 <br>
 
 
-<h2 align="left">Part 4: Global Illumination (20 Points)</h2>
+<h2 align="left">Part 4: Global Illumination (25 Points)</h2>
 <!-- Walk through your implementation of the indirect lighting function.
 Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
-Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. 
 For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
 Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
 You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
@@ -622,7 +801,22 @@ You will probably want to use the instructional machines for the above renders i
   Walk through your implementation of the indirect lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  For <code>at_least_one_bounce_radiance</code>, we first add one-bounce direct lighting
+  (<code>one_bounce_radiance</code>) at the current hit point, then recursively sample a BSDF direction to estimate higher-order bounces.
+  To reduce computation, we apply Russian roulette termination with probability $p = 0.35$, and to keep the estimator unbiased, 
+  surviving paths are divided by the continuation probability:
+  $$
+  L_{indirect} \leftarrow
+  \frac{f_r(\omega_o,\omega_i)\,\cos\theta_i}{p(\omega_i)\,p_{cont}}\,L_o(x',-\omega_i),
+  \quad p_{cont}=1-0.35.
+  $$
+  <br>
+  Specifically, we implementated the indirect lighting method as follows:
+  <br> <br>
+  1) Always add one-bounce direct light at each hit.<br>
+  2) Stop recursion when depth reaches 1.<br>
+  3) Sample a BSDF direction, spawn the next ray with epsilon offset, and recurse on hit.<br>
+  4) Accumulate either all bounces (<code>isAccumBounces</code>) or isolate a specific bounce depth.
 </p>
 <br>
 
@@ -635,7 +829,7 @@ You will probably want to use the instructional machines for the above renders i
     <tr align="center">
       <td>
         <img src="images/part4/global_illumination/p4_global_cbbunny.png" align="middle" width="800px"/>
-        <figcaption>example1.dae</figcaption>
+        <figcaption>CBbunny.dae</figcaption>
       </td>
     </tr>
 
@@ -651,7 +845,6 @@ You will probably want to use the instructional machines for the above renders i
 
 <h3>
   Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. 
-  (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
 </h3>
 <!-- Example of including multiple figures -->
 <div align="middle">
@@ -659,28 +852,32 @@ You will probably want to use the instructional machines for the above renders i
     <tr align="center">
       <td>
         <img src="images/part4/cbbunny_direct_indirect/bunny_direct.png" align="middle" width="400px"/>
-        <figcaption>Only direct illumination (example1.dae)</figcaption>
+        <figcaption>Only direct illumination (CBbunny.dae)</figcaption>
       </td>
       <td>
         <img src="images/part4/cbbunny_direct_indirect/bunny_indirect.png" align="middle" width="400px"/>
-        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+        <figcaption>Only indirect illumination (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
 <p>
+    Total radiance at each intersection point is calculated recursively:
+    $$L_o = L_0 + L_1 + L_2 + \cdots$$
+    where $L_0$ are the zero-bounce emissions, $L_1$ is direct lighting, and $L_{\ge2}$ are indirect bounces.
+    <br><br>
     Direct illumination contains light that reaches the surface from emitters and then travels to the camera in one bounce.
     Indirect illumination contains light that has already bounced off other surfaces, carrying color bleeding and global transport effects.
     <br><br>
-    In our comparison, the direct-only image shows stronger shadow structure from the overhead light, but little color bleeding from the side 
+    We saw that the direct-only images showed stronger shadows from the overhead light, with no color bleeding from the side 
     walls. The indirect-only image shows visible red/blue wall tinting on the bunny, but lacks the physically expected direct shadowing from 
     the light source.
     <br><br>
-    To isolate <b>direct-only</b> illumination, we modified <code>PathTracer::at_least_one_bounce_radiance</code> to return zero additional 
+    For <b>direct-only</b> illumination, we modified <code>PathTracer::at_least_one_bounce_radiance</code> to return zero additional 
     contribution, because <code>PathTracer::est_radiance_global_illumination</code> already adds zero-bounce and one-bounce terms:
     <pre>return Vector3D(0, 0, 0);</pre>
-    To isolate <b>indirect-only</b> illumination, we removed the top-level direct terms by subtracting zero-bounce and one-bounce contributions 
+    For <b>indirect-only</b> illumination, we removed the top-level direct terms by subtracting zero-bounce and one-bounce contributions 
     at the first recursion level:
     <pre>if (r.depth == max_ray_depth) {
   return L_out - 2.0 * one_bounce_radiance(r, isect) - zero_bounce_radiance(r, isect);
@@ -689,42 +886,156 @@ You will probably want to use the instructional machines for the above renders i
 <br>
 
 <h3>
-  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+  For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Use 1024 samples per pixel.
 </h3>
 <!-- Example of including multiple figures -->
 <div align="middle">
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_0.png" align="middle" width="400px"/>
-        <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_0.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 0 (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_1.png" align="middle" width="400px"/>
-        <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
-      </td>
-    </tr>
-    <tr align="center">
-      <td>
-        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_2.png" align="middle" width="400px"/>
-        <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
-      </td>
-      <td>
-        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_3.png" align="middle" width="400px"/>
-        <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_1.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 1 (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/part4/cbbunny_depths/p4_cbbunny_depth_100.png" align="middle" width="400px"/>
-        <figcaption>max_ray_depth = 100 (CBbunny.dae)</figcaption>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_2.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 2 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_3.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 3 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_4.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 4 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_5.png" align="middle" width="400px"/>
+        <figcaption>Unaccumulated m = 5 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<h3>
+Explain in your write-up what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.
+</h3>
+<p>
+  The 2nd and 3rd bounces are the most visually important for realism, since they create global illumination effects
+  (color bleeding and soft indirect fill) that rasterization with direct lighting can't reproduce.  However, with each
+  additional bounce, the contributions become less significant.
+  <br><br>
+  With <code>isAccumBounces=false</code>, each image isolates one specific bounce order.
+  Increasing <code>max_ray_depth</code> changes which bounce is visualized:
+  <br><br>
+  <b>m = 0</b>: zero-bounce/emissive contribution only; most surfaces are dark.<br>
+  <b>m = 1</b>: direct lighting appears first, with sharp visibility from the emitter.<br>
+  <b>m = 2</b>: first true indirect bounce introduces noticeable color bleeding from Cornell-box walls and softens dark regions.<br>
+  <b>m = 3</b>: second indirect transfer strengthens interreflection in creases and contact regions and stabilizes low-frequency shading.<br>
+  <b>m = 4, 5</b>: higher-order contributions are present but much weaker, mainly subtle smooth brightening.
+  <br><br>
+</p>
+<br>
+
+<h3>
+  Compare rendered views of accumulated and unaccumulated bounces for CBbunny.dae with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <th>Depth</th>
+      <th>Unaccumulated (<code>-o 0</code>)</th>
+      <th>Accumulated (<code>-o 1</code>)</th>
+    </tr>
+    <tr align="center">
+      <td>m = 0</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_0.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_0.png" align="middle" width="260px"/></td>
+    </tr>
+    <tr align="center">
+      <td>m = 1</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_1.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_1.png" align="middle" width="260px"/></td>
+    </tr>
+    <tr align="center">
+      <td>m = 2</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_2.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_2.png" align="middle" width="260px"/></td>
+    </tr>
+    <tr align="center">
+      <td>m = 3</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_3.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_3.png" align="middle" width="260px"/></td>
+    </tr>
+    <tr align="center">
+      <td>m = 4</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_4.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_4.png" align="middle" width="260px"/></td>
+    </tr>
+    <tr align="center">
+      <td>m = 5</td>
+      <td><img src="images/part4/cbbunny_depths_unaccum/p4_cbbunny_unaccum_depth_5.png" align="middle" width="260px"/></td>
+      <td><img src="images/part4/cbbunny_depths_accum/p4_cbbunny_accum_depth_5.png" align="middle" width="260px"/></td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+  In unaccumulated mode, each image isolates exactly one bounce order, which lets us see where each portion of the illumination comes from.
+  In accumulated mode, the lower-order bounces are accumulated for each depth, and so the image appears progressively more complete.
+  We see that visually, most perceptual improvement occurs by depth 3, while depth 4 and 5 only provide subtle refinements in darker regions.
+</p>
+<br>
+
+<h3>
+  For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100 (the -m flag). Use 1024 samples per pixel.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_0.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 0</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_1.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 1</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_2.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 2</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_3.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 3</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_4.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 4</figcaption>
+      </td>
+      <td>
+        <img src="images/part4/cbbunny_rr/p4_cbbunny_rr_depth_100.png" align="middle" width="260px"/>
+        <figcaption>RR, m = 100</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+  Russian Roulette attempts to speed up ray tracing by probabilistically terminates long paths, while preserving an 
+  unbiased estimator by weighting each contribution. So, increasing <code>m</code> yields the same effect as before,
+  and we are now able to compute <code>m = 100</code> in a reasonable time! As expected, <code>m = 100</code> image 
+  is visually close to low-depth renders, validating our intuition that ray tracing converges quickly, because high-order 
+  bounces contribute very little radiance.
 </p>
 <br>
 
@@ -737,49 +1048,80 @@ You will probably want to use the instructional machines for the above renders i
     <tr align="center">
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_1.png" align="middle" width="400px"/>
-        <figcaption>1 sample per pixel (example1.dae)</figcaption>
+        <figcaption>1 sample per pixel (CBbunny.dae)</figcaption>
       </td>
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_2.png" align="middle" width="400px"/>
-        <figcaption>2 samples per pixel (example1.dae)</figcaption>
+        <figcaption>2 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_4.png" align="middle" width="400px"/>
-        <figcaption>4 samples per pixel (example1.dae)</figcaption>
+        <figcaption>4 samples per pixel (CBbunny.dae)</figcaption>
       </td>
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_8.png" align="middle" width="400px"/>
-        <figcaption>8 samples per pixel (example1.dae)</figcaption>
+        <figcaption>8 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_16.png" align="middle" width="400px"/>
-        <figcaption>16 samples per pixel (example1.dae)</figcaption>
+        <figcaption>16 samples per pixel (CBbunny.dae)</figcaption>
       </td>
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_64.png" align="middle" width="400px"/>
-        <figcaption>64 samples per pixel (example1.dae)</figcaption>
+        <figcaption>64 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
         <img src="images/part4/cbbunny_samples/p4_cbbunny_samples_1024.png" align="middle" width="400px"/>
-        <figcaption>1024 samples per pixel (example1.dae)</figcaption>
+        <figcaption>1024 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+  We rendered CBbunny at 1, 2, 4, 8, 16, 64, and 1024 spp (with 4 light samples).
+  As spp increases, noise drops and shading becomes progressively smoother.
+  <br><br>
+  We also implemented light sampling with Monte Carlo integration, which estimates the lighting integral by
+  averaging weighted random samples! In radiometric terms, our renderer estimates <b>radiance</b> at the camera. 
+    <br><br>
+  For $N$ samples $x_i \sim p(x)$, the estimator is the average, of a weighted sum, of N samples:
+
+  $$
+  I = \int_{\Omega} f(x)\,dx
+  \approx \hat I_N = \frac{1}{N}\sum_{i=1}^{N}\frac{f(x_i)}{p(x_i)}.
+  $$
+
+  If $Y_i$ is the per-sample radiance contribution and
+  $\mathrm{Var}[Y_i] = \sigma^2$, then:
+
+  $$
+  \mathrm{Var}[\hat I_N]
+  = \mathrm{Var}\!\left[\frac{1}{N}\sum_{i=1}^N Y_i\right]
+  = \frac{1}{N^2}\sum_{i=1}^N \mathrm{Var}[Y_i]
+  = \frac{\sigma^2}{N}.
+  $$
+
+  Therefore, our estimation is garranteed to converge! In practice, since the standard deviation scales as $1/\sqrt{N}$,
+  a 4x increase in spp gives about a 2x reduction in visible noise.
+  <br><br>
+  At low spp (1-8), high variance appears as speckle in shadowed and indirectly lit regions.
+  At medium spp (16-64), shadow boundaries stabilize and diffuse gradients are cleaner.
+  At 1024 spp, remaining variance is minimal, giving near noise-free soft shadows and smoother color transitions.
+  <br><br>
+  Thus, we get a predictable quality-time tradeoff: early spp increases give large visual gains,
+  while later increases provide finer improvements at higher cost.
 </p>
 <br>
 
 
-<h2 align="left">Part 5: Adaptive Sampling (20 Points)</h2>
+<h2 align="left">Part 5: Adaptive Sampling (15 Points)</h2>
 <!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
 Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
 
@@ -787,7 +1129,12 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  For this part, we implemented adaptive sampling to efficiently reduce noise in Monte Carlo path tracing by allocating more samples to pixels that need them and fewer to pixels that have already converged.
+  We begin by tracing rays through each pixel and accumulating the radiance samples <code>Li  </code>and their illuminance  <code>xi=Li.illum() </code>. For each pixel, we maintain running sums of the illuminance where <code> n </code> is the number of samples taken so far. From these, we compute the mean and variance.
+  Next, we calculate a <code> 95% </code> confidence interval for the pixel’s illuminance by  <code>I=1.96σn </code>.
+  This interval measures how close our current estimate of the pixel’s average illuminance is to the true value. If <code> I≤maxTolerance⋅μ </code>, we assume the pixel has converged and stop tracing additional rays. Otherwise, we continue tracing up to the maximum number of samples  <code>(ns_aa) </code>.
+  To reduce computational overhead, convergence is only checked every <code> samplesPerBatch </code> samples instead of after every ray. 
+  After convergence, the final pixel radiance is computed as the average of all accumulated samples, and the number of samples actually taken is stored in  <code>sampleCountBuffer </code>. This allows us to generate a sampling rate image that visualizes which pixels required more or fewer samples.
 </p>
 <br>
 
@@ -820,11 +1167,17 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   </table>
 </div>
 <br>
+<p>
+  For both scenes above, we rendered with adaptive sampling configured at <code>2048</code> max samples per pixel, <code>1</code> light sample, and max ray depth <code>5</code>.
+  In the sample-rate visualizations, high-frequency regions (object silhouettes, contact shadows, and soft-shadow boundaries) receive more samples, while smooth wall/floor regions converge early and use fewer samples.
+  This confirms that adaptive sampling is reallocating computation to high-variance pixels while still producing clean final renders.
+</p>
+<br>
 
 <h2 align="left">Part 6: Extra Credit</h2>
 <p>
   This section contains all extra-credit content for this report. We implemented three extensions:
-  (1) improved pixel samplers, (2) SAH-based BVH splitting, and (7) an alternate adaptive sampling heuristic.
+  (1) improved pixel samplers, (2) SAH-based BVH splitting, and rubric item (7): an alternate adaptive sampling heuristic.
   For each item below, we include approach details, implementation notes, representative screenshots, and timing data.
 </p>
 
@@ -1049,10 +1402,22 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
 </p>
 
 <p>
-  <b>Reproducibility note.</b> All Part 6 metrics were produced from logged command-line runs with fixed scene and render parameters.
+  <b>Note.</b> All Part 6 metrics were produced from logged command-line runs with fixed scene and render parameters.
   Logs are stored under <code>docs/images/part6/logs</code>.
 </p>
 <br>
+
+<h2 align="left">Collaboration Reflection</h2>
+<p>
+  We collaborated by splitting up the sections, and debugging together on parts. We both focused together on the core rendering 
+  logic (intersections, lighting recursion, sampling decisions). Kevin focused on setting up experiments, runtime/quality 
+  comparisons, and helped to set up the report, while Yoko finished up the remaining tasks and helped with the reivew. 
+  This workflow worked well, and helped us catch subtle bugs in depth handling and sampling configuration. 
+  <br><br>
+  Our biggest takeaway 
+  was that for a project with many long renders, <b>communication and delegation</b> are key. Also, we learned that you need to be 
+  careful about what does and doesn't count as an intesection, and which lighting terms contribute to each bounce.
+</p>
 
 
 <footer>
