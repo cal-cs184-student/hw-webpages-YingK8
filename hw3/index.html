@@ -17,7 +17,7 @@
     --line: #333333;
     --cyan: #00ffff;
     --magenta: #ff00ff;
-    --yellow: #ffff00;
+    --yellow: #e9e93a;
     --red: #ff0000;
     --green: #00ff00;
     --blue: #0000ff;
@@ -261,19 +261,19 @@
     border: 1px solid var(--panel-border);
     padding: 0.6rem 0.7rem;
     white-space: pre-wrap;
-    background: var(--panel-dark);
-    color: var(--fg);
+    background: var(--bg);
+    color: var(--yellow);
     line-height: 1.5;
     margin: 0.6rem 0;
     box-shadow: 2px 2px 0 var(--panel-shadow);
   }
 
   code {
-    background: var(--panel-mid);
-    color: var(--fg);
+    background: var(--bg);
+    color: var(--yellow);
     padding: 0.05rem 0.3rem;
-    border: 1px solid var(--panel-border);
-    box-shadow: 1px 1px 0 var(--panel-shadow);
+    /* border: 1px solid var(--panel-border); */
+    /* box-shadow: 1px 1px 0 var(--panel-shadow); */
   }
 
   pre code {
@@ -288,10 +288,11 @@
     display: block;
     margin: 0.7rem 0 !important;
     padding: 0.55rem 0.7rem;
-    border: 1px solid var(--panel-border);
-    background: var(--panel-dark);
-    box-shadow: 2px 2px 0 var(--panel-shadow);
+    /* border: 1px solid var(--panel-border); */
+    background: var(--bg);
+    /* box-shadow: 2px 2px 0 var(--panel-shadow); */
     overflow-x: auto;
+    color: var(--yellow);
   }
 
   mjx-container[display='false'] {
