@@ -109,7 +109,8 @@
 			We then added collisions against spheres, planes, and the cloth itself using spatial hashing for efficient self-collision checks. Finally, we implemented multiple shaders (diffuse, Blinn-Phong, texture mapping, bump/displacement mapping, mirror reflection, and a custom toon shader), which connected the physical simulation to final visual appearance. The most interesting takeaway was how strongly physical parameters and mesh resolution influence both motion realism and shading quality.
 		</p>
 
-		<h2>Part 1: Masses and springs</h2>
+		<h2>PART 1 (17 PTS)</h2>
+		<h3>Masses and Springs Implementation</h3>
 		<p>
 			For part 1, we implemented <code>buildGrid()</code> to construct the cloth as a grid of point masses connected by structural, shearing, and bending springs.
 		</p>
@@ -126,7 +127,8 @@
 			When visualizing the wireframe, we can observe the effect of each constraint type. Without shearing constraints, the cloth appears more flexible and can easily skew. With only shearing constraints, diagonal stability is present but the overall structure becomes weaker. When all constraints are enabled, the cloth maintains its shape and behaves as a cohesive surface. 
 		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<h3>Required Results: scene/pinned2.json Wireframe</h3>
+		<p>These screenshots show the cloth wireframe structure and the three required constraint configurations: (1) no shearing constraints, (2) only shearing constraints, and (3) all constraints enabled.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 				<tr>
@@ -148,8 +150,10 @@
 			</table>
 		</div>
 
-		<h2>Part 2: Simulation via numerical integration</h2>
-		<h3>2.1: Compute total force acting on each point mass</h3>
+		<h2>PART 2 (20 PTS)</h2>
+		<p>For all parameter experiments in this section, we paused the simulation with <code>P</code>, changed parameters in the UI, resumed with <code>P</code>, and reset with <code>R</code> when needed.</p>
+		<h3>Simulation via Numerical Integration</h3>
+		<h4>Compute Total Force Acting on Each Point Mass</h4>
 		<p>
 			For this task, we first reset the force vector for each point mass to zero to avoid accumulating forces across time steps. We then add external forces such as gravity by applying Newton’s second law (<code>F=ma</code>), and computed the mass based on the cloth’s density and resolution. 
 		</p>
@@ -157,22 +161,26 @@
 			Next, we compute spring forces between connected point masses using Hooke’s law. 
 		</p>
 		<p>
-			<code>Fs=ks∗(∣∣pa−pb∣∣−l)</code>
+			\[
+			F_s = k_s\left(\|p_a - p_b\| - l\right)
+			\]
 		</p>
 		<p>
 			For each spring, we check whether its constraint type (structural, shearing, or bending) is enabled. If so, we compute the spring force based on the difference between the current length of the spring and its rest length. The force is applied along the normalized direction between the two connected masses, with equal magnitude and opposite direction to preserve momentum. For bending springs, we scale the spring constant by a factor of 0.2 to make them weaker than structural and shearing constraints.
 		</p>
-		<h3>2.2: Use Verlet integration to compute new point mass positions</h3>
+		<h4>Use Verlet Integration to Compute New Point Mass Positions</h4>
 		<p>
-			For this task, we used Verlet integration to update the positions of the point masses. Instead of explicitly storing velocity, we approximate it using the difference between the current and previous positions (<code>vt∗dt=xt−xt−dt</code>). The update rule incorporates acceleration and a damping factor to simulate energy loss. Specifically, we scale the velocity term by <code>(1 - d)</code>, where d is the damping coefficient (converted from percentage). 
+			For this task, we used Verlet integration to update the positions of the point masses. Instead of explicitly storing velocity, we approximate it using the difference between the current and previous positions \(v_t\Delta t = x_t - x_{t-\Delta t}\). The update rule incorporates acceleration and a damping factor to simulate energy loss. Specifically, we scale the velocity term by \((1 - d)\), where \(d\) is the damping coefficient (converted from percentage). 
 		</p>
 		<p>
-			<code>xt+dt=xt+(1−d)∗(xt−xt−dt)+at∗dt^2</code>
+			\[
+			x_{t+\Delta t} = x_t + (1-d)\left(x_t - x_{t-\Delta t}\right) + a_t\,\Delta t^2
+			\]
 		</p>
 		<p>
 			This helps reduce oscillations and stabilizes the simulation over time. Pinned point masses are excluded from this update and remain fixed in place.
 		</p>
-		<h3>2.3: Constrain position updates</h3>
+		<h4>Constrain Position Updates</h4>
 		<p>
 			For this task, we enforce a constraint on spring lengths after updating positions to prevent unrealistic stretching. More specifically, we apply a correction to bring the connected point masses closer together while preserving the direction of the spring if its length exceeds 110% of its rest length for each string. If both masses are movable, the correction is split evenly; if one is pinned, the entire correction is applied to the other. 
 		</p>
@@ -224,7 +232,15 @@
 			</table>
 		</div>
 
-		<h3>Damping Comparison (pinned2, paused at ~2s)</h3>
+		<h3>Required Result: scene/pinned4.json Final Resting State</h3>
+		<div class="image-row">
+			<figure class="image-card">
+				<img src="part2/part2_pinned4.png"/>
+				<figcaption>Shaded cloth final resting state (pinned4 scene)</figcaption>
+			</figure>
+		</div>
+
+		<h3>Damping Variation (scene/pinned2.json, paused at ~2s)</h3>
 		<div class="image-row">
 			<figure class="image-card">
 				<img src="part2/damping_02.png"/>
@@ -245,7 +261,8 @@
 		</p>
 
 
-		<h2>Part 3: Handling collisions with other objects</h2>
+		<h2>PART 3 (20 PTS)</h2>
+		<h3>Handling Collisions with Other Objects</h3>
 		<h3>3.1: Handling collisions with spheres</h3>
 		<p>
 			For sphere collisions, we detect whether a point mass lies inside the sphere by computing the vector from the sphere’s center to the point mass and checking whether its magnitude is less than or equal to the radius. If a collision occurs, we project the point mass onto the surface of the sphere along this direction to compute the tangent point. We then calculate a correction vector from the point mass’s previous position (<code>last_position</code>) to this tangent point. The new position is set by applying this correction scaled by <code>(1−friction)</code>, which helps simulate friction and prevents unrealistic sliding.
@@ -298,7 +315,8 @@
 			</table>
 		</div>
 
-		<h2>Part 4: Handling self-collisions</h2>
+		<h2>PART 4 (20 PTS)</h2>
+		<h3>Handling Self-Collisions</h3>
 		<p>
 			For part 4, we implemented spatial hashing to avoid the expensive <code>O(n^2)</code> pairwise comparisons between all point masses o handle self-collisions efficiently.
 		</p>
@@ -307,9 +325,9 @@
 			First, in <code>hash_position</code>, we partitioned 3D space into grid cells whose dimensions are based on the cloth size:
 		</p>
 		<ul>
-			<li><code>w=3⋅width/num_width_points</code></li>
-			<li><code>h=3⋅height/num_height_points</code></li>
-			<li><code>t=max⁡(w,h)</code></li>
+			<li>\(w = 3\cdot \text{width} / \text{num\_width\_points}\)</li>
+			<li>\(h = 3\cdot \text{height} / \text{num\_height\_points}\)</li>
+			<li>\(t = \max(w, h)\)</li>
 		</ul>
 		<p>
 			Each point mass position is snapped to its corresponding grid cell using modulo operations. We then computed a hash value as a linear combination of the discretized coordinates using large prime multipliers because it helps distribute points evenly across hash buckets and reduces collisions in the hash table.
@@ -419,7 +437,8 @@
 			</tr>
 		</table>
 
-		<h2>Part 5: Shaders</h2>
+		<h2>PART 5 (20 PTS)</h2>
+		<h3>Shaders</h3>
 		<p>
 			A shader program is a small program that runs on the GPU and is responsible for computing how objects are rendered on the screen. Unlike CPU-based rendering, shaders execute in parallel for many vertices or pixels at once, which allows real-time rendering at high frame rates.
 		</p>
@@ -433,17 +452,19 @@
 		<p>
 			The vertex shader defines the geometry and structure, while the fragment shader determines appearance and lighting.
 		</p>
-		<h3>Task 1: Diffuse Shading</h3>
+		<h3>Diffuse Shading</h3>
 		<p>
 			For diffuse shading, we implemented Lambertian reflection using the dot product between the surface normal and the light direction. 
 		</p>
 		<p>
-			<code>Ld=kd (I/r^2) max(0,n⋅l)</code>
+			\[
+			L_d = k_d\,\frac{I}{r^2}\,\max(0, n\cdot l)
+			\]
 		</p>
 		<p>
 			The brightness depends on how directly the surface faces the light. The result produces soft, matte shading where surfaces facing the light are brighter, and those facing away are darker. This gives a basic sense of depth but no shininess.
 		</p>
-		<h3>Task 2: Blinn-Phong Shading</h3>
+		<h3>Blinn-Phong Shading</h3>
 		<p>
 			The Blinn-Phong model extends diffuse shading by adding ambient and specular components:
 		</p>
@@ -471,12 +492,12 @@
 			<li>Specular: produces highlights based on the angle between the normal and the half-vector (between view and light directions).</li>
 		</ul>
 		<p>
-			In our implementation, we used the Blinn-Phong formula <code>L=kaIa+kd (I/r^2) max(0,n⋅l) +kS (I/r^2) max(0,n⋅h)p</code> with a small ambient term for base illumination, a diffuse term scaled by light intensity and distance, and a specular term with exponent p = 32 for sharp highlights.
+			In our implementation, we used the Blinn-Phong formula \(L = k_aI_a + k_d\,\frac{I}{r^2}\max(0, n\cdot l) + k_s\,\frac{I}{r^2}\max(0, n\cdot h)^p\) with a small ambient term for base illumination, a diffuse term scaled by light intensity and distance, and a specular term with exponent \(p=32\) for sharp highlights.
 		</p>
 		<p>
 			The result produce flat and uniform light in ambient-only rendering. Diffuse-only rendering shows shape but no shininess and specular-only highlights small reflective spots. When they are combined, they produce realistic lighting with both shading and highlights.
 		</p>
-		<h3>Task 3: Texture Mapping</h3>
+		<h3>Texture Mapping</h3>
 		<p>
 			For texture mapping, we sampled a texture using the UV coordinates passed from the vertex shader. The sampled color replaces the base material color while still being affected by lighting.
 		</p>
@@ -493,7 +514,7 @@
 		<p>
 			This allows detailed surface appearance without increasing geometric complexity. 
 		</p>
-		<h3>Task 4: Displacement and Bump Mapping</h3>
+		<h3>Displacement and Bump Mapping</h3>
 		<b>Bump Mapping</b>
 		<p>
 			In bump mapping, we modified the surface normals using a height map without changing the actual geometry. We computed partial derivatives of the height map in the <code>u</code> and <code>v</code> directions and constructed a perturbed normal vector in tangent space. This normal was then transformed into world space using the TBN (tangent-bitangent-normal) matrix.
@@ -567,7 +588,7 @@
 				<figcaption>Displacement Mapping Sphere -o 128 -a 128</figcaption>
 			</figure>
 		</div>
-		<h3>Task 5: Environment-Mapped Reflections</h3>
+		<h3>Environment-Mapped Reflections</h3>
 		<p>
 			For mirror shading, we simulated reflections using an environment map. We computed the outgoing view direction from the camera to the fragment, reflected it across the surface normal, and used that reflected direction to sample a cubemap texture.
 		</p>
